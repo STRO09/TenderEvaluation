@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# env
+.env
+.env.*
+
+# logs
+logs
+*.log
+npm-debug.log*
+
+# build output (if you ever bring it back)
+dist/
+
+# OS
+.DS_Store
+
+# misc
+.replit-artifact/

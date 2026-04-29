@@ -1,11 +1,6 @@
 import { and, desc, eq, sql, type SQL } from "drizzle-orm";
-import {
-  db,
-  submissionsTable,
-  documentsTable,
-  evaluationsTable,
-  tendersTable,
-} from "@workspace/db";
+import { db } from "../config/db";
+import { submissionsTable, documentsTable, evaluationsTable, tendersTable } from "../schema";
 import { Forbidden, NotFound } from "../utils/errors";
 import { logAudit } from "./audit.service";
 

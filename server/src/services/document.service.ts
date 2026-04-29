@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db, documentsTable, submissionsTable } from "@workspace/db";
+import { db } from "../config/db";
+import { documentsTable, submissionsTable } from "../schema";
 import { Forbidden, NotFound } from "../utils/errors";
 import { logAudit } from "./audit.service";
 

@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+'use client';
+import { useState, ReactNode } from 'react';
 import { CompanySidebar } from './CompanySidebar';
 import { Header } from './Header';
 
@@ -7,12 +8,15 @@ interface CompanyPortalLayoutProps {
 }
 
 export function CompanyPortalLayout({ children }: CompanyPortalLayoutProps) {
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="flex min-h-screen bg-background">
-      <CompanySidebar />
+      <CompanySidebar isOpen={isOpen} onToggle={() => setIsOpen((v) => !v)} />
       <div className="flex-1 flex flex-col">
-        <Header />
-        <main className="flex-1 overflow-auto">
+        <main          
+          className="transition-all duration-300 min-h-screen"
+          style={{ marginLeft: isOpen ? '240px' : '60px' }}>
+          <Header />
           {children}
         </main>
       </div>

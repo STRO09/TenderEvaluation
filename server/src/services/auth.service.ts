@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
-import { db, usersTable, refreshTokensTable } from "@workspace/db";
+import { db } from "../config/db";
+import { usersTable, refreshTokensTable } from "../schema";
 import {
   signAccessToken,
   signRefreshToken,

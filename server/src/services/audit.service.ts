@@ -1,5 +1,6 @@
 import { eq, desc } from "drizzle-orm";
-import { db, auditLogsTable } from "@workspace/db";
+import { db } from "../config/db";
+import { auditLogsTable } from "../schema";
 
 export async function logAudit(input: {
   submissionId?: string;

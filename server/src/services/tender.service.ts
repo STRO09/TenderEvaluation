@@ -1,5 +1,6 @@
 import { and, desc, eq, ilike, sql, type SQL } from "drizzle-orm";
-import { db, tendersTable, criteriaTable } from "@workspace/db";
+import { db } from "../config/db";
+import { tendersTable, criteriaTable } from "../schema";
 import { NotFound } from "../utils/errors";
 
 export interface ListTendersOptions {

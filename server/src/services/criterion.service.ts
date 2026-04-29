@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db, criteriaTable, tendersTable } from "@workspace/db";
+import { db } from "../config/db";
+import { criteriaTable, tendersTable } from "../schema";
 import { NotFound } from "../utils/errors";
 
 export async function addCriterion(
