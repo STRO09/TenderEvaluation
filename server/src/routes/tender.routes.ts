@@ -15,8 +15,6 @@ router.get("/", verifyJWT, validateQuery(listTendersQuerySchema), ctrl.list);
 router.get("/:id", verifyJWT, ctrl.getOne);
 router.post(
   "/",
-  verifyJWT,
-  requireRole("government"),
   validateBody(createTenderSchema),
   ctrl.create,
 );

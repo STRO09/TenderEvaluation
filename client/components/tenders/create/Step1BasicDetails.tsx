@@ -3,11 +3,7 @@
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select';
 import { TenderFormData } from './CreateTenderWizard';
 
@@ -16,22 +12,11 @@ interface Step1Props {
   onUpdate: (updates: Partial<TenderFormData>) => void;
 }
 
-const departments = [
-  'Transportation',
-  'Health',
-  'IT',
-  'Education',
-  'Infrastructure',
-  'Defense',
-];
+const departments = ['Transportation', 'Health', 'IT', 'Education', 'Infrastructure', 'Defense'];
+const categories = ['Goods & Services', 'Construction', 'Professional Services', 'Equipment & Machinery', 'Supplies & Consumables'];
 
-const categories = [
-  'Goods & Services',
-  'Construction',
-  'Professional Services',
-  'Equipment & Machinery',
-  'Supplies & Consumables',
-];
+const toDateString = (d: Date | null) => (d ? d.toISOString().split('T')[0] : '');
+const fromDateString = (s: string) => (s ? new Date(s) : null);
 
 export function Step1BasicDetails({ data, onUpdate }: Step1Props) {
   return (
@@ -48,32 +33,19 @@ export function Step1BasicDetails({ data, onUpdate }: Step1Props) {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">Department *</label>
-          <Select value={data.department} onValueChange={(value) => onUpdate({ department: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select department" />
-            </SelectTrigger>
+          <Select value={data.department} onValueChange={(v) => onUpdate({ department: v })}>
+            <SelectTrigger><SelectValue placeholder="Select department" /></SelectTrigger>
             <SelectContent>
-              {departments.map((dept) => (
-                <SelectItem key={dept} value={dept}>
-                  {dept}
-                </SelectItem>
-              ))}
+              {departments.map((d) => <SelectItem key={d} value={d}>{d}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
-
         <div>
           <label className="block text-sm font-medium mb-2">Category *</label>
-          <Select value={data.category} onValueChange={(value) => onUpdate({ category: value })}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select category" />
-            </SelectTrigger>
+          <Select value={data.category} onValueChange={(v) => onUpdate({ category: v })}>
+            <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
             <SelectContent>
-              {categories.map((cat) => (
-                <SelectItem key={cat} value={cat}>
-                  {cat}
-                </SelectItem>
-              ))}
+              {categories.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
@@ -89,32 +61,41 @@ export function Step1BasicDetails({ data, onUpdate }: Step1Props) {
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-2">Application Deadline *</label>
-        <Input
-          type="date"
-          value={data.deadline.toISOString().split('T')[0]}
-          onChange={(e) => onUpdate({ deadline: new Date(e.target.value) })}
-        />
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-2">Submission Opens *</label>
+          <Input
+            type="date"
+            value={toDateString(data.submissionStartDate)}
+            onChange={(e) => onUpdate({ submissionStartDate: fromDateString(e.target.value) })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-2">Submission Deadline *</label>
+          <Input
+            type="date"
+            value={toDateString(data.submissionDeadline)}
+            onChange={(e) => onUpdate({ submissionDeadline: fromDateString(e.target.value) })}
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-2">Budget Min (USD) *</label>
+          <label className="block text-sm font-medium mb-2">Budget Min (INR) *</label>
           <Input
             type="number"
             placeholder="0"
-            value={data.budgetMin}
+            value={data.budgetMin || ''}
             onChange={(e) => onUpdate({ budgetMin: parseFloat(e.target.value) || 0 })}
           />
         </div>
-
         <div>
-          <label className="block text-sm font-medium mb-2">Budget Max (USD) *</label>
+          <label className="block text-sm font-medium mb-2">Budget Max (INR) *</label>
           <Input
             type="number"
             placeholder="0"
-            value={data.budgetMax}
+            value={data.budgetMax || ''}
             onChange={(e) => onUpdate({ budgetMax: parseFloat(e.target.value) || 0 })}
           />
         </div>

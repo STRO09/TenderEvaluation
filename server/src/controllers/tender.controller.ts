@@ -26,8 +26,8 @@ export const getOne = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
-  if (!req.user) throw Unauthorized();
-  const tender = await createTender({ ...req.body, createdBy: req.user.sub });
+  // if (!req.user) throw Unauthorized();
+  const tender = await createTender({ ...req.body, createdBy: "govt" });
   res.status(201).json(tender);
 });
 

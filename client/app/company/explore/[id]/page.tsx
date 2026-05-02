@@ -5,8 +5,9 @@ import { ArrowLeft, Calendar } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CompanyTenderDetailPage({ params }: { params: { id: string } }) {
+  const {id} = params;
   const tender = {
-    id: params.id,
+    id: id,
     title: 'Infrastructure Development Project',
     department: 'Transportation',
     description: 'Development of transportation infrastructure for improved connectivity.',
@@ -128,7 +129,7 @@ export default function CompanyTenderDetailPage({ params }: { params: { id: stri
             </CardContent>
           </Card>
 
-          <Link href={`/company/submissions/${params.id}/apply`} className="block">
+          <Link href={`/company/submissions/${id}`} className="block">
             <Button className="w-full" size="lg">
               Start Submission
             </Button>

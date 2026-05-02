@@ -94,12 +94,12 @@ export default function GovTendersPage() {
           <h1 className="text-3xl font-bold">Tenders</h1>
           <p className="text-muted-foreground mt-2">Manage and monitor all tenders</p>
         </div>
-        <Link href="/gov/tenders/create">
+        {/* <Link href="/gov/tenders/create">
           <Button>
             <Plus className="w-4 h-4 mr-2" />
             Create Tender
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-4">

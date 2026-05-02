@@ -49,6 +49,16 @@ export async function getTenderById(id: string) {
 export async function createTender(input: {
   title: string;
   department: string;
+  category?: string;
+  description?: string;
+  submissionStartDate?: string;
+  submissionDeadline?: string;
+  budgetMin?: number;
+  budgetMax?: number;
+  eligibilityCriteria?: unknown[];
+  requiredDocuments?: unknown[];
+  evaluationRules?: Record<string, unknown>;
+  confidenceThresholds?: Record<string, unknown>;
   deadline?: string;
   status?: "draft" | "published" | "closed" | "archived";
   tenderData?: Record<string, unknown>;
@@ -57,12 +67,24 @@ export async function createTender(input: {
   const [row] = await db
     .insert(tendersTable)
     .values({
-      title: input.title,
-      department: input.department,
-      deadline: input.deadline,
-      status: input.status ?? "draft",
-      tenderData: input.tenderData ?? {},
-      createdBy: input.createdBy,
+      title:               input.title,
+      department:          input.department,
+      category:            input.category ?? '',
+      description:         input.description ?? '',
+      submissionStartDate: input.submissionStartDate?.split('T')[0] ?? input.deadline,
+      submissionDeadline:  input.submissionDeadline?.split('T')[0],
+      budgetMin:           String(input.budgetMin ?? 0),
+      budgetMax:           String(input.budgetMax ?? 0),
+      status:              input.status ?? "draft",
+      createdBy:           input.createdBy,
+      // pack the rich fields into tenderData so nothing is lost
+      tenderData: {
+        ...(input.tenderData ?? {}),
+        eligibilityCriteria:  input.eligibilityCriteria  ?? [],
+        requiredDocuments:    input.requiredDocuments    ?? [],
+        evaluationRules:      input.evaluationRules      ?? {},
+        confidenceThresholds: input.confidenceThresholds ?? {},
+      },
     })
     .returning();
   return row;

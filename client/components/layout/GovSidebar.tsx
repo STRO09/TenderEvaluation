@@ -11,7 +11,9 @@ import {
   LogOut,
   ChevronLeft,
   ChevronRight,
+  Plus
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { label: 'Dashboard',   href: '/gov/dashboard',   icon: LayoutDashboard },
@@ -64,27 +66,28 @@ export function GovSidebar({ isOpen, onToggle }: GovSidebarProps) {
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 h-screen bg-card border-r flex flex-col z-50 transition-all duration-300',
-        isOpen ? 'w-60' : 'w-[60px]'
+        "fixed left-0 top-0 h-screen bg-card border-r flex flex-col z-50 transition-all duration-300",
+        isOpen ? "w-60" : "w-[60px]",
       )}
     >
       {/* Toggle button — floats on the right edge */}
       <button
         onClick={onToggle}
         className="absolute -right-3.5 top-5 z-50 w-7 h-7 rounded-full bg-card border shadow-sm flex items-center justify-center hover:bg-muted transition-colors"
-        aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+        aria-label={isOpen ? "Collapse sidebar" : "Expand sidebar"}
       >
-        {isOpen
-          ? <ChevronLeft className="w-3.5 h-3.5 text-muted-foreground" />
-          : <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
-        }
+        {isOpen ? (
+          <ChevronLeft className="w-3.5 h-3.5 text-muted-foreground" />
+        ) : (
+          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
+        )}
       </button>
 
       {/* Logo */}
       <div
         className={cn(
-          'flex items-center border-b h-14 flex-shrink-0 overflow-hidden transition-all duration-300',
-          isOpen ? 'px-5 gap-3' : 'justify-center'
+          "flex items-center border-b h-14 flex-shrink-0 overflow-hidden transition-all duration-300",
+          isOpen ? "px-5 gap-3" : "justify-center",
         )}
       >
         <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
@@ -92,14 +95,23 @@ export function GovSidebar({ isOpen, onToggle }: GovSidebarProps) {
         </div>
         {isOpen && (
           <div className="min-w-0">
-            <p className="text-sm font-semibold leading-tight truncate">Procurement</p>
-            <p className="text-[11px] text-muted-foreground leading-tight">Government Portal</p>
+            <p className="text-sm font-semibold leading-tight truncate">
+              Procurement
+            </p>
+            <p className="text-[11px] text-muted-foreground leading-tight">
+              Government Portal
+            </p>
           </div>
         )}
       </div>
 
       {/* Nav */}
-      <nav className={cn('flex-1 py-3 space-y-0.5 overflow-y-auto', isOpen ? 'px-3' : 'px-2')}>
+      <nav
+        className={cn(
+          "flex-1 py-3 space-y-0.5 overflow-y-auto",
+          isOpen ? "px-3" : "px-2",
+        )}
+      >
         {isOpen && (
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-2 pb-2 pt-1 select-none">
             Navigation
@@ -108,7 +120,8 @@ export function GovSidebar({ isOpen, onToggle }: GovSidebarProps) {
 
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          const isActive =
+            pathname === item.href || pathname.startsWith(item.href + "/");
 
           if (!isOpen) {
             return (
@@ -116,10 +129,10 @@ export function GovSidebar({ isOpen, onToggle }: GovSidebarProps) {
                 <Link
                   href={item.href}
                   className={cn(
-                    'flex items-center justify-center w-full h-9 rounded-lg transition-colors',
+                    "flex items-center justify-center w-full h-9 rounded-lg transition-colors",
                     isActive
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted",
                   )}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
@@ -133,10 +146,10 @@ export function GovSidebar({ isOpen, onToggle }: GovSidebarProps) {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm transition-colors',
+                "flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm transition-colors",
                 isActive
-                  ? 'bg-primary text-primary-foreground font-medium'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  ? "bg-primary text-primary-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted",
               )}
             >
               <Icon className="w-4 h-4 flex-shrink-0" />
@@ -147,15 +160,25 @@ export function GovSidebar({ isOpen, onToggle }: GovSidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className={cn('border-t flex-shrink-0 py-3', isOpen ? 'px-3' : 'px-2')}>
+      <div
+        className={cn("border-t flex-shrink-0 py-3", isOpen ? "px-3" : "px-2")}
+      >
         {isOpen ? (
-          <Link
-            href="/auth"
-            className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors w-full"
-          >
-            <LogOut className="w-4 h-4 flex-shrink-0" />
-            <span>Switch Role</span>
-          </Link>
+          <>
+            <Link href="/gov/tenders/create">
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Create Tender
+              </Button>
+            </Link>
+            <Link
+              href="/auth"
+              className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors w-full"
+            >
+              <LogOut className="w-4 h-4 flex-shrink-0" />
+              <span>Switch Role</span>
+            </Link>
+          </>
         ) : (
           <CollapsedTooltip label="Switch Role">
             <Link

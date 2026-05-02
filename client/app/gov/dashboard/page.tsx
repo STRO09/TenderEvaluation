@@ -86,12 +86,12 @@ export default function GovernmentDashboard() {
             Manage tenders and evaluate submissions
           </p>
         </div>
-        <Link href="/gov/tenders/create">
+        {/* <Link href="/gov/tenders/create">
           <Button size="default" className="gap-2 shadow-sm">
             <Plus className="h-4 w-4" />
             Create Tender
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       {/* Stats Cards */}

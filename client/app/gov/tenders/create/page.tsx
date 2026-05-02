@@ -1,4 +1,4 @@
-import { CreateTenderWizard } from '@/components/tenders/create/CreateTenderWizard';
+import CreateTenderWizard from '@/components/tenders/create/CreateTenderWizard';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
