@@ -1,33 +1,79 @@
-import jwt, { type SignOptions } from "jsonwebtoken";
-import { env } from "../config/env";
+import jwt, {
+  type JwtPayload,
+  type SignOptions,
+  type VerifyOptions,
+} from "jsonwebtoken";
 
-export type AuthRole = "government" | "company";
+import { env } from "../config/env.js";
 
-export interface AccessPayload {
-  sub: string; // user id
-  role: AuthRole;
-  email: string;
-}
-
-export interface RefreshPayload {
+export type AccessTokenPayload = JwtPayload & {
   sub: string;
-  jti: string; // refresh token id
+  type: "access";
+};
+
+type TokenOptions = {
+  secret?: string;
+  expiresIn?: SignOptions["expiresIn"];
+};
+
+const jwtExpiresIn = env.ACCESS_TOKEN_TTL as SignOptions["expiresIn"];
+
+/**
+ * Sign an access JWT.
+ *
+ * @param payload
+ * Token payload.
+ *
+ * @param options
+ * Optional JWT signing configuration.
+ *
+ * @returns Signed access token.
+ */
+export function signAccessToken(
+  payload: Omit<AccessTokenPayload, "iat" | "exp">,
+  options: TokenOptions = {},
+): string {
+  const { secret = env.JWT_SECRET, expiresIn = jwtExpiresIn } = options;
+
+  return jwt.sign(payload, secret, {
+    expiresIn,
+  });
 }
 
-export function signAccessToken(payload: AccessPayload): string {
-  const opts: SignOptions = { expiresIn: env.ACCESS_TOKEN_TTL as SignOptions["expiresIn"] };
-  return jwt.sign(payload, env.JWT_ACCESS_SECRET, opts);
-}
+/**
+ * Verify and decode an access JWT.
+ *
+ * @param token
+ * Access token to verify.
+ *
+ * @param options
+ * Optional JWT verification configuration.
+ *
+ * @returns Decoded access token payload.
+ *
+ * @throws {JsonWebTokenError|TokenExpiredError}
+ * If the token is invalid or expired.
+ */
+export function verifyAccessToken(
+  token: string,
+  options: {
+    secret?: string;
+    verifyOptions?: VerifyOptions;
+  } = {},
+): AccessTokenPayload {
+  const { secret = env.JWT_SECRET, verifyOptions = {} } = options;
 
-export function signRefreshToken(payload: RefreshPayload): string {
-  const opts: SignOptions = { expiresIn: env.REFRESH_TOKEN_TTL as SignOptions["expiresIn"] };
-  return jwt.sign(payload, env.JWT_REFRESH_SECRET, opts);
-}
+  const payload = jwt.verify(token, secret, verifyOptions);
 
-export function verifyAccessToken(token: string): AccessPayload {
-  return jwt.verify(token, env.JWT_ACCESS_SECRET) as AccessPayload;
-}
+  if (typeof payload === "string") {
+    throw new Error("Invalid access token.");
+  }
 
-export function verifyRefreshToken(token: string): RefreshPayload {
-  return jwt.verify(token, env.JWT_REFRESH_SECRET) as RefreshPayload;
+  const jwtPayload = payload as JwtPayload;
+
+  if (typeof jwtPayload.sub !== "string" || jwtPayload.type !== "access") {
+    throw new Error("Invalid access token.");
+  }
+
+  return jwtPayload as AccessTokenPayload;
 }
